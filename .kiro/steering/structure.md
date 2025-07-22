@@ -86,9 +86,25 @@ from config import get_api_key
 - **Default Settings:** Define in `config.py` with environment overrides
 - **Database:** SQLite file location configurable via environment variables
 
+## uv Project Management
+
+**Important:** Always use `uv run` prefix for all Python commands to ensure proper virtual environment activation and dependency management.
+
+```bash
+# Correct way to run Python commands
+uv run python cli.py
+uv run streamlit run app.py
+uv run python -m pytest tests/
+uv run python -c "import models"
+
+# Don't run Python directly without uv
+python cli.py  # ❌ Wrong
+streamlit run app.py  # ❌ Wrong
+```
+
 ## Testing Structure
 
 - **Unit Tests:** One test file per module (`test_market_data.py`)
 - **Integration Tests:** Cross-module functionality testing
-- **End-to-End Tests:** Complete user workflow validation
+- **End-to-End Tests:** Complete user workflow validation (`uv run python -m pytest tests/test_end_to_end.py`)
 - **Mock Data:** Consistent test data for API responses and calculations

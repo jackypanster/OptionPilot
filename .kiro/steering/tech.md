@@ -37,28 +37,28 @@ uv pip install -r requirements.txt
 ### Development Workflow
 ```bash
 # Run CLI interface (Milestone 1)
-python cli.py
+uv run python cli.py
 
 # Run web application (Milestone 2)  
-streamlit run app.py
+uv run streamlit run app.py
 
 # Run tests
-python -m pytest tests/ -v
+uv run python -m pytest tests/ -v
 
 # Run specific test modules
-python -m pytest tests/test_strategy_calculator.py -v
+uv run python -m pytest tests/test_strategy_calculator.py -v
 ```
 
 ### Testing Commands
 ```bash
 # Test model imports
-python -c "from models import StockQuote, OptionContract; print('Models imported successfully')"
+uv run python -c "from models import StockQuote, OptionContract; print('Models imported successfully')"
 
 # Test market data service
-python -c "from market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
+uv run python -c "from market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
 
 # Test calculator
-python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Calculator ready')"
+uv run python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Calculator ready')"
 ```
 
 ## Development Standards
