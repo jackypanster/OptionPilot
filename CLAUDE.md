@@ -21,6 +21,7 @@ All Python commands must be run using `uv`:
 - `src/models.py` - Validated data structures (StockQuote, OptionContract, OptionLeg, Strategy, StrategyMetrics, TradeRecord)
 - `src/config.py` - Environment-based configuration management with fail-fast validation
 - `src/market_data.py` - Alpha Vantage API integration (simplified single-file, 100 lines)
+- `src/strategy_calculator.py` - Options strategy financial calculations engine (99 lines)
 - Built around two-leg spread strategies only (MVP limitation)
 
 ### API Integration Strategy
@@ -29,8 +30,8 @@ All Python commands must be run using `uv`:
 - All API keys managed through environment variables with validation
 
 ### Data Flow Architecture
-1. **Market Data Layer**: Alpha Vantage integration (planned in `market_data.py`)
-2. **Strategy Calculator**: Financial calculations engine (planned in `strategy_calculator.py`)
+1. **Market Data Layer**: Alpha Vantage integration (`market_data.py`) ✅
+2. **Strategy Calculator**: Financial calculations engine (`strategy_calculator.py`) ✅ 
 3. **AI Analysis Layer**: OpenRouter integration for strategy insights (planned in `ai_analyzer.py`)
 4. **Persistence Layer**: SQLite-based trading journal (planned in `trading_journal.py`)
 

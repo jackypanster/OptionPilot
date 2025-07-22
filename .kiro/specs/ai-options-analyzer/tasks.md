@@ -10,7 +10,7 @@
   - **Git:** Initial commit with project structure and models
   - _Requirements: 5.1, 5.2_
 
-- [ ] 2. Implement market data service with Alpha Vantage integration
+- [x] 2. Implement market data service with Alpha Vantage integration
   - Create MarketDataService class with API connection handling
   - Implement get_stock_quote method with error handling and rate limiting
   - Implement get_options_chain method for retrieving complete options data
@@ -22,7 +22,7 @@
   - **Git:** Commit with message "feat: implement market data service with Alpha Vantage integration"
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [ ] 3. Build strategy calculator engine
+- [x] 3. Build strategy calculator engine
   - Implement StrategyCalculator class with core financial calculation methods
   - Code calculate_net_premium method for credit/debit determination
   - Code calculate_max_profit and calculate_max_loss methods for different spread types

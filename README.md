@@ -51,15 +51,17 @@ OptionPilot/
 │   ├── models.py           # Core data structures ✅
 │   ├── config.py           # Configuration management ✅
 │   ├── market_data.py      # Alpha Vantage API integration ✅ (100 lines)
-│   ├── strategy_calculator.py # Financial calculations engine (planned)
+│   ├── strategy_calculator.py # Financial calculations engine ✅ (99 lines)
 │   ├── ai_analyzer.py      # OpenRouter AI integration (planned)
 │   └── trading_journal.py # SQLite persistence layer (planned)
 ├── tests/
-│   └── test_market_data.py # Market data service tests ✅
+│   ├── test_market_data.py # Market data service tests ✅
+│   └── test_strategy_calculator.py # Strategy calculator tests ✅
 ├── requirements.txt        # Python dependencies ✅
 ├── .env.example           # API configuration template ✅
 ├── cli.py                 # CLI interface (Milestone 1 - planned)
 ├── app.py                 # Streamlit web app (Milestone 2 - planned)
+├── CALCULATIONS.md        # Financial formulas documentation ✅
 └── CLAUDE.md              # Claude Code guidance ✅
 ```
 
@@ -78,8 +80,15 @@ OptionPilot/
 - Simplified single-file architecture following MVP principles
 - Comprehensive test suite with real API calls
 
+**✅ Completed (Task 3):**
+- Strategy calculator engine with 6 core financial metrics (99 lines)
+- Net premium, max profit/loss, breakeven points, margin calculations
+- Support for single-leg and two-leg spread strategies
+- Comprehensive test suite with realistic options scenarios
+- CALCULATIONS.md documentation with detailed formulas and examples
+
 **🚧 In Progress:**
-- Strategy calculator (Task 3)
+- Payoff diagram generation (Task 4)
 - Additional components per implementation plan
 
 ## API Setup Instructions
