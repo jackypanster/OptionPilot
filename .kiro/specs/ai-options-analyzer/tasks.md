@@ -36,15 +36,15 @@
   - **Git:** Commit with message "feat: implement strategy calculator with all financial metrics"
   - _Requirements: 2.2, 2.3_
 
-- [ ] 4. Implement AI analyzer with OpenRouter integration
+- [x] 4. Implement AI analyzer with OpenRouter integration
   - Create AIAnalyzer class with OpenRouter API client
   - Implement analyze_strategy method with proper prompt formatting
   - Code format_analysis_prompt method to structure strategy data for AI
   - Add response parsing to extract strategy interpretation, market outlook, and risk assessment
   - Implement error handling for AI API failures and response validation
-  - Write unit tests for AI analyzer with mocked API responses
+  - Write unit tests for AI analyzer with real OpenRouter API calls (no mocking)
   - **Acceptance:** Run `python -m pytest tests/test_ai_analyzer.py -v` with all tests passing
-  - **CLI Test:** Run `python -c "from ai_analyzer import AIAnalyzer; analyzer = AIAnalyzer(); print('AI analyzer ready')"` without errors
+  - **CLI Test:** Run `python -c "from src.ai_analyzer import AIAnalyzer; analyzer = AIAnalyzer(); print('AI analyzer ready')"` without errors
   - **Documentation:** Add AI_INTEGRATION.md with OpenRouter setup and prompt examples
   - **Git:** Commit with message "feat: implement AI analyzer with OpenRouter integration"
   - _Requirements: 3.1, 3.2_

@@ -52,16 +52,18 @@ OptionPilot/
 │   ├── config.py           # Configuration management ✅
 │   ├── market_data.py      # Alpha Vantage API integration ✅ (100 lines)
 │   ├── strategy_calculator.py # Financial calculations engine ✅ (99 lines)
-│   ├── ai_analyzer.py      # OpenRouter AI integration (planned)
+│   ├── ai_analyzer.py      # OpenRouter AI integration ✅ (95 lines)
 │   └── trading_journal.py # SQLite persistence layer (planned)
 ├── tests/
 │   ├── test_market_data.py # Market data service tests ✅
-│   └── test_strategy_calculator.py # Strategy calculator tests ✅
+│   ├── test_strategy_calculator.py # Strategy calculator tests ✅
+│   └── test_ai_analyzer.py # AI analyzer tests ✅
 ├── requirements.txt        # Python dependencies ✅
 ├── .env.example           # API configuration template ✅
 ├── cli.py                 # CLI interface (Milestone 1 - planned)
 ├── app.py                 # Streamlit web app (Milestone 2 - planned)
 ├── CALCULATIONS.md        # Financial formulas documentation ✅
+├── AI_INTEGRATION.md      # OpenRouter API setup and usage ✅
 └── CLAUDE.md              # Claude Code guidance ✅
 ```
 
@@ -87,8 +89,15 @@ OptionPilot/
 - Comprehensive test suite with realistic options scenarios
 - CALCULATIONS.md documentation with detailed formulas and examples
 
+**✅ Completed (Task 4):**
+- AI analyzer with OpenRouter API integration (95 lines)
+- Claude 3.5 Sonnet integration for strategy interpretation
+- Three-part analysis: strategy interpretation, market outlook, risk warnings
+- Comprehensive error handling and response validation
+- AI_INTEGRATION.md documentation with setup and usage examples
+
 **🚧 In Progress:**
-- Payoff diagram generation (Task 4)
+- Trading journal with SQLite persistence (Task 5)
 - Additional components per implementation plan
 
 ## API Setup Instructions
@@ -115,6 +124,24 @@ OptionPilot/
 4. **Test API Connection:**
    ```bash
    uv run python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
+   ```
+
+### OpenRouter API Configuration
+
+1. **Get API Key:**
+   - Visit [OpenRouter API Keys](https://openrouter.ai/keys)
+   - Sign up and create a new API key
+   - Copy your API key
+
+2. **Configure Environment:**
+   ```bash
+   # Add to your .env file:
+   OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
+   ```
+
+3. **Test AI Integration:**
+   ```bash
+   uv run python -c "from src.ai_analyzer import AIAnalyzer; analyzer = AIAnalyzer(); print('AI analyzer ready')"
    ```
 
 ## Dependencies
