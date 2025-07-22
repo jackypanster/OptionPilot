@@ -36,19 +36,7 @@
   - **Git:** Commit with message "feat: implement strategy calculator with all financial metrics"
   - _Requirements: 2.2, 2.3_
 
-- [ ] 4. Create payoff diagram generation functionality
-  - Implement generate_payoff_diagram method in StrategyCalculator
-  - Code payoff calculation across stock price range at expiration
-  - Add matplotlib-based diagram generation with proper labeling
-  - Create PayoffData class to structure diagram data
-  - Write tests for payoff diagram generation with sample strategies
-  - **Acceptance:** Run `python -m pytest tests/test_payoff_diagram.py -v` with all tests passing
-  - **CLI Test:** Run `python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Payoff diagram generated')"` creates valid matplotlib figure
-  - **Documentation:** Add examples to CALCULATIONS.md showing payoff diagrams for common strategies
-  - **Git:** Commit with message "feat: add payoff diagram generation with matplotlib"
-  - _Requirements: 2.3_
-
-- [ ] 5. Implement AI analyzer with OpenRouter integration
+- [ ] 4. Implement AI analyzer with OpenRouter integration
   - Create AIAnalyzer class with OpenRouter API client
   - Implement analyze_strategy method with proper prompt formatting
   - Code format_analysis_prompt method to structure strategy data for AI
@@ -61,7 +49,7 @@
   - **Git:** Commit with message "feat: implement AI analyzer with OpenRouter integration"
   - _Requirements: 3.1, 3.2_
 
-- [ ] 6. Build trading journal with local persistence
+- [ ] 5. Build trading journal with local persistence
   - Create TradingJournal class with SQLite database integration
   - Implement database schema creation and migration handling
   - Code save_trade method to persist strategy records
@@ -76,7 +64,7 @@
   - **Git:** Commit with message "feat: implement trading journal with SQLite persistence"
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 7. Create CLI interface for core functionality validation (Milestone 1)
+- [ ] 6. Create CLI interface for core functionality validation (Milestone 1)
   - Implement CLI class with command parsing and user interaction
   - Code get-quote command for stock price display
   - Implement get-options command for options chain display
@@ -93,7 +81,7 @@
   - **Git:** Commit with message "feat: implement CLI interface for Milestone 1 completion"
   - _Requirements: 1.1, 1.2, 2.1, 2.2, 3.1, 4.1, 4.2, 4.3_
 
-- [ ] 8. Add comprehensive error handling and validation to CLI
+- [ ] 7. Add comprehensive error handling and validation to CLI
   - Implement input validation for stock symbols and expiration dates
   - Add error handling for invalid strategy configurations
   - Code user-friendly error messages for API failures
@@ -106,6 +94,18 @@
   - **Documentation:** Update CLI_USAGE.md with error handling examples and troubleshooting guide
   - **Git:** Commit with message "feat: add comprehensive error handling and validation to CLI"
   - _Requirements: 1.1, 1.2, 2.1, 3.1, 4.3_
+
+- [ ] 8. Create payoff diagram generation functionality
+  - Implement generate_payoff_diagram method in StrategyCalculator
+  - Code payoff calculation across stock price range at expiration
+  - Add matplotlib-based diagram generation with proper labeling
+  - Create PayoffData class to structure diagram data
+  - Write tests for payoff diagram generation with sample strategies
+  - **Acceptance:** Run `python -m pytest tests/test_payoff_diagram.py -v` with all tests passing
+  - **CLI Test:** Run `python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Payoff diagram generated')"` creates valid matplotlib figure
+  - **Documentation:** Add examples to CALCULATIONS.md showing payoff diagrams for common strategies
+  - **Git:** Commit with message "feat: add payoff diagram generation with matplotlib"
+  - _Requirements: 2.3_
 
 - [ ] 9. Create Streamlit web interface foundation (Milestone 2)
   - Set up Streamlit application structure and basic layout
