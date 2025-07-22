@@ -53,17 +53,19 @@ OptionPilot/
 │   ├── market_data.py      # Alpha Vantage API integration ✅ (100 lines)
 │   ├── strategy_calculator.py # Financial calculations engine ✅ (99 lines)
 │   ├── ai_analyzer.py      # OpenRouter AI integration ✅ (95 lines)
-│   └── trading_journal.py # SQLite persistence layer (planned)
+│   └── trading_journal.py # SQLite persistence layer ✅ (100 lines)
 ├── tests/
 │   ├── test_market_data.py # Market data service tests ✅
 │   ├── test_strategy_calculator.py # Strategy calculator tests ✅
-│   └── test_ai_analyzer.py # AI analyzer tests ✅
+│   ├── test_ai_analyzer.py # AI analyzer tests ✅
+│   └── test_trading_journal.py # Trading journal tests ✅
 ├── requirements.txt        # Python dependencies ✅
 ├── .env.example           # API configuration template ✅
 ├── cli.py                 # CLI interface (Milestone 1 - planned)
 ├── app.py                 # Streamlit web app (Milestone 2 - planned)
 ├── CALCULATIONS.md        # Financial formulas documentation ✅
 ├── AI_INTEGRATION.md      # OpenRouter API setup and usage ✅
+├── TRADING_JOURNAL.md     # SQLite database schema and usage ✅
 └── CLAUDE.md              # Claude Code guidance ✅
 ```
 
@@ -96,8 +98,15 @@ OptionPilot/
 - Comprehensive error handling and response validation
 - AI_INTEGRATION.md documentation with setup and usage examples
 
+**✅ Completed (Task 5):**
+- Trading journal with SQLite persistence (100 lines)
+- Complete CRUD operations: save, retrieve, and close trades
+- Automated P&L calculations for credit and debit spreads
+- JSON serialization for complex strategy and metrics data
+- TRADING_JOURNAL.md documentation with database schema
+
 **🚧 In Progress:**
-- Trading journal with SQLite persistence (Task 5)
+- CLI interface for core functionality validation (Task 6)
 - Additional components per implementation plan
 
 ## API Setup Instructions

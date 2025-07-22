@@ -49,7 +49,7 @@
   - **Git:** Commit with message "feat: implement AI analyzer with OpenRouter integration"
   - _Requirements: 3.1, 3.2_
 
-- [ ] 5. Build trading journal with local persistence
+- [x] 5. Build trading journal with local persistence
   - Create TradingJournal class with SQLite database integration
   - Implement database schema creation and migration handling
   - Code save_trade method to persist strategy records
@@ -58,7 +58,7 @@
   - Add calculate_final_pnl method for position closing
   - Write unit tests for trading journal CRUD operations
   - **Acceptance:** Run `python -m pytest tests/test_trading_journal.py -v` with all tests passing
-  - **CLI Test:** Run `python -c "from trading_journal import TradingJournal; journal = TradingJournal(); print('Journal ready')"` without errors
+  - **CLI Test:** Run `python -c "from src.trading_journal import TradingJournal; journal = TradingJournal(); print('Journal ready')"` without errors
   - **Database Test:** Verify SQLite database file is created and contains proper schema
   - **Documentation:** Add TRADING_JOURNAL.md with database schema and usage examples
   - **Git:** Commit with message "feat: implement trading journal with SQLite persistence"
