@@ -10,21 +10,25 @@ OptionPilot/
 ├── .gitignore                  # Git ignore patterns
 ├── cli.py                      # CLI interface entry point (Milestone 1)
 ├── app.py                      # Streamlit web app entry point (Milestone 2)
-├── models.py                   # Core data structures and models
-├── market_data.py              # Alpha Vantage API integration
-├── strategy_calculator.py      # Financial calculations engine
-├── ai_analyzer.py              # OpenRouter AI integration
-├── trading_journal.py          # SQLite persistence layer
-├── config.py                   # Configuration management
-├── tests/                      # Test suite
+├── src/                       # Source code directory
+│   ├── __init__.py           # Package initialization
+│   ├── models.py             # Core data structures and models
+│   ├── config.py             # Configuration management
+│   ├── market_data.py        # Alpha Vantage API integration
+│   ├── strategy_calculator.py # Financial calculations engine
+│   ├── ai_analyzer.py        # OpenRouter AI integration
+│   └── trading_journal.py    # SQLite persistence layer
+├── tests/                     # Test suite
 │   ├── __init__.py
+│   ├── test_models.py
+│   ├── test_config.py
 │   ├── test_market_data.py
 │   ├── test_strategy_calculator.py
 │   ├── test_ai_analyzer.py
 │   ├── test_trading_journal.py
 │   ├── test_cli.py
 │   └── test_end_to_end.py
-└── docs/                       # Additional documentation
+└── docs/                      # Additional documentation
     ├── CALCULATIONS.md
     ├── AI_INTEGRATION.md
     ├── TRADING_JOURNAL.md
@@ -75,9 +79,9 @@ import httpx
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Local imports last
-from models import StockQuote, Strategy
-from config import get_api_key
+# Local imports last (using src layout)
+from src.models import StockQuote, Strategy
+from src.config import get_api_key
 ```
 
 ## Configuration Management

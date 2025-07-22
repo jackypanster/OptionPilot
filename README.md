@@ -20,15 +20,24 @@ uv pip install -r requirements.txt
 
 # Configure API keys
 cp .env.example .env
-# Edit .env with your actual API keys
+# Edit .env with your actual API keys:
+# - ALPHA_VANTAGE_API_KEY: Get from https://www.alphavantage.co/support/#api-key
+# - OPENROUTER_API_KEY: Get from https://openrouter.ai/keys
 ```
 
 ### Running the Application
 ```bash
-# CLI interface (Milestone 1)
+# Test configuration and models (currently implemented)
+uv run python -c "from src.models import StockQuote, OptionContract; print('Models imported successfully')"
+uv run python -c "from src.config import validate_config; validate_config(); print('Configuration valid')"
+
+# Test market data service (Task 2 - implemented)
+uv run python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
+
+# CLI interface (Milestone 1 - in development)
 uv run python cli.py
 
-# Web interface (Milestone 2)
+# Web interface (Milestone 2 - planned)
 uv run streamlit run app.py
 
 # Run tests
@@ -38,12 +47,76 @@ uv run python -m pytest tests/ -v
 ## Project Structure
 ```
 OptionPilot/
-├── models.py              # Core data structures
-├── config.py              # Configuration management
-├── requirements.txt       # Python dependencies
-├── .env.example          # API configuration template
-└── tests/                # Test suite
+├── src/
+│   ├── models.py           # Core data structures ✅
+│   ├── config.py           # Configuration management ✅
+│   ├── market_data.py      # Alpha Vantage API integration ✅ (100 lines)
+│   ├── strategy_calculator.py # Financial calculations engine (planned)
+│   ├── ai_analyzer.py      # OpenRouter AI integration (planned)
+│   └── trading_journal.py # SQLite persistence layer (planned)
+├── tests/
+│   └── test_market_data.py # Market data service tests ✅
+├── requirements.txt        # Python dependencies ✅
+├── .env.example           # API configuration template ✅
+├── cli.py                 # CLI interface (Milestone 1 - planned)
+├── app.py                 # Streamlit web app (Milestone 2 - planned)
+└── CLAUDE.md              # Claude Code guidance ✅
 ```
+
+## Current Implementation Status
+
+**✅ Completed (Task 1):**
+- Core data models with validation
+- Configuration management with environment variables
+- Project structure and dependencies
+- API key management setup
+
+**✅ Completed (Task 2):**
+- Market data service with Alpha Vantage API integration (100 lines)
+- Stock quote retrieval with fail-fast error handling
+- Options chain data fetching
+- Simplified single-file architecture following MVP principles
+- Comprehensive test suite with real API calls
+
+**🚧 In Progress:**
+- Strategy calculator (Task 3)
+- Additional components per implementation plan
+
+## API Setup Instructions
+
+### Alpha Vantage API Configuration
+
+1. **Get API Key:**
+   - Visit [Alpha Vantage API Key Registration](https://www.alphavantage.co/support/#api-key)
+   - Sign up for a free account
+   - Copy your API key
+
+2. **Configure Environment:**
+   ```bash
+   cp .env.example .env
+   # Edit .env file and add your API key:
+   ALPHA_VANTAGE_API_KEY=your_actual_api_key_here
+   ```
+
+3. **Rate Limits:**
+   - Free tier: 25 requests per day, 5 requests per minute
+   - Premium plans available for higher limits
+   - The service uses fail-fast approach - rate limit errors will stop execution immediately
+
+4. **Test API Connection:**
+   ```bash
+   uv run python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
+   ```
+
+## Dependencies
+
+The project uses these key dependencies:
+- **httpx**: Async HTTP client for API calls
+- **pandas**: Data manipulation for options chains
+- **matplotlib**: Payoff diagram visualization
+- **streamlit**: Web interface framework
+- **python-dotenv**: Environment variable management
+- **pytest**: Testing framework
 
 ---
 
