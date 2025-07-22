@@ -1,4 +1,52 @@
-# OptionPilot
+# OptionPilot - AI Options Strategy Analyzer
+
+An MVP desktop application for options trading analysis, designed for individual investors who want to quantify and validate strategy risks and returns before trading.
+
+## Quick Start
+
+### Prerequisites
+- Python 3.11+
+- uv package manager ([installation guide](https://docs.astral.sh/uv/getting-started/installation/))
+
+### Setup
+```bash
+# Clone the repository
+git clone <repository-url>
+cd OptionPilot
+
+# Create virtual environment and install dependencies
+uv venv
+uv pip install -r requirements.txt
+
+# Configure API keys
+cp .env.example .env
+# Edit .env with your actual API keys
+```
+
+### Running the Application
+```bash
+# CLI interface (Milestone 1)
+uv run python cli.py
+
+# Web interface (Milestone 2)
+uv run streamlit run app.py
+
+# Run tests
+uv run python -m pytest tests/ -v
+```
+
+## Project Structure
+```
+OptionPilot/
+├── models.py              # Core data structures
+├── config.py              # Configuration management
+├── requirements.txt       # Python dependencies
+├── .env.example          # API configuration template
+└── tests/                # Test suite
+```
+
+---
+
 # 产品需求文档 (PRD): AI期权策略分析器 MVP
 
 * **产品名称:** AI期权策略分析器
