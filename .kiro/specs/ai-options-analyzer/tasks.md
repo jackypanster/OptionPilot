@@ -105,7 +105,7 @@
   - **Git:** Commit with message "feat: add basic payoff diagram generation"
   - _Requirements: 2.3_
 
-- [ ] 9. Create Streamlit web interface with strategy builder (Milestone 2)
+- [x] 9. Create Streamlit web interface with strategy builder (Milestone 2)
   - Set up basic Streamlit app structure and layout
   - Implement stock selection and quote display
   - Create simple strategy builder with leg configuration
