@@ -39,7 +39,7 @@ class TradingJournal:
         """Retrieve all trades from journal."""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM trades ORDER BY entry_date DESC")
+            cursor.execute("SELECT * FROM trades ORDER BY entry_date DESC, id DESC")
             return [self._row_to_trade(row) for row in cursor.fetchall()]
     
     def close_trade(self, trade_id: int, closing_price: float) -> TradeRecord:
