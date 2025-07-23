@@ -8,7 +8,7 @@ from src.strategy_calculator import StrategyCalculator
 from src.ai_analyzer import AIAnalyzer, AIAnalysisError
 from src.trading_journal import TradingJournal, TradingJournalError
 from src.models import Strategy, OptionLeg, OptionContract
-from src.config import ConfigError
+from src.config import ConfigError, get_supported_symbols
 
 current_strategy = None
 current_metrics = None
@@ -23,6 +23,8 @@ def cli():
 @click.argument('symbol')
 def get_quote(symbol):
     """Get real-time stock quote for SYMBOL."""
+    if symbol.upper() not in get_supported_symbols():
+        raise ValueError(f"Unsupported symbol: {symbol.upper()}. Supported: {', '.join(get_supported_symbols())}")
     try:
         quote = MarketDataService().get_stock_quote(symbol.upper())
         click.echo(f"📊 {quote.symbol}: ${quote.price:.2f}")
@@ -34,6 +36,8 @@ def get_quote(symbol):
 @click.argument('date')
 def get_options(symbol, date):
     """Get options chain for SYMBOL and DATE (YYYY-MM-DD)."""
+    if symbol.upper() not in get_supported_symbols():
+        raise ValueError(f"Unsupported symbol: {symbol.upper()}. Supported: {', '.join(get_supported_symbols())}")
     try:
         exp_date = datetime.strptime(date, '%Y-%m-%d').date()
         options = MarketDataService().get_options_chain(symbol.upper(), exp_date)
@@ -49,6 +53,8 @@ def build_strategy():
     global current_strategy, current_metrics
     click.echo("🔧 Strategy Builder")
     symbol = click.prompt("Symbol").upper()
+    if symbol not in get_supported_symbols():
+        raise ValueError(f"Unsupported symbol: {symbol}. Supported: {', '.join(get_supported_symbols())}")
     try:
         expiration = datetime.strptime(click.prompt("Expiration (YYYY-MM-DD)"), '%Y-%m-%d').date()
     except ValueError:

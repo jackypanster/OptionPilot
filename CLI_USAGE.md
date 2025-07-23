@@ -202,20 +202,43 @@ uv run python cli.py close-trade --id 3 --price 31.00
 | `list-trades` | _none_ | Show all journal entries |
 | `close-trade` | `--id ID --price PRICE` | Close trade with manual price |
 
-## Error Handling
+## Error Handling & Validation
+
+### Input Validation (MVP Style)
+
+The CLI includes basic input validation that follows MVP principles: **fail fast and crash immediately** when encountering invalid inputs. This is intentional - it's better to restart than hide problems.
+
+#### Supported Stock Symbols
+Only these symbols are supported:
+- **NVDA** (NVIDIA)
+- **TSLA** (Tesla) 
+- **HOOD** (Robinhood)
+- **CRCL** (Circle Internet Financial)
+
+```bash
+# Valid symbol - works
+uv run python cli.py get-quote NVDA
+
+# Invalid symbol - crashes immediately  
+uv run python cli.py get-quote AAPL
+# ValueError: Unsupported symbol: AAPL. Supported: NVDA, TSLA, HOOD, CRCL
+```
 
 ### Common Errors
+
+#### Unsupported Symbols
+```bash
+uv run python cli.py get-quote INVALID
+# ValueError: Unsupported symbol: INVALID. Supported: NVDA, TSLA, HOOD, CRCL
+
+uv run python cli.py get-options AAPL 2024-03-15  
+# ValueError: Unsupported symbol: AAPL. Supported: NVDA, TSLA, HOOD, CRCL
+```
 
 #### API Rate Limits
 ```bash
 uv run python cli.py get-quote NVDA
 # ❌ Rate limit exceeded: 25 requests per day limit reached
-```
-
-#### Invalid Symbols
-```bash
-uv run python cli.py get-quote INVALID
-# ❌ Invalid symbol: INVALID
 ```
 
 #### Missing Configuration
@@ -242,12 +265,19 @@ uv run python cli.py close-trade --id 999 --price 100
 # ❌ Trade 999 not found or already closed
 ```
 
-### Troubleshooting
+### MVP Troubleshooting
 
-1. **API Key Issues**: Verify `.env` file contains valid API keys
-2. **Network Errors**: Check internet connection and API service status
-3. **Rate Limits**: Wait for rate limit reset or upgrade API plan
-4. **Database Issues**: Check file permissions for SQLite database
+1. **Validation Crashes**: Restart the CLI - this is expected behavior for invalid inputs
+2. **API Key Issues**: Verify `.env` file contains valid API keys
+3. **Network Errors**: Check internet connection and API service status  
+4. **Rate Limits**: Wait for rate limit reset or upgrade API plan
+5. **Database Issues**: Check file permissions for SQLite database
+
+### MVP Philosophy
+- **Crashes are features**: Invalid inputs should crash immediately to expose problems
+- **No complex error recovery**: Simply restart the CLI when something fails
+- **Transparent errors**: Technical error messages help with debugging
+- **Fail fast**: Better to crash early than continue with bad data
 
 ## Integration Testing
 
