@@ -52,13 +52,13 @@ uv run python -m pytest tests/test_strategy_calculator.py -v
 ### Testing Commands
 ```bash
 # Test model imports
-uv run python -c "from models import StockQuote, OptionContract; print('Models imported successfully')"
+uv run python -c "from src.models import StockQuote, OptionContract; print('Models imported successfully')"
 
 # Test market data service
-uv run python -c "from market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
+uv run python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
 
 # Test calculator
-uv run python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Calculator ready')"
+uv run python -c "from src.strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Calculator ready')"
 ```
 
 ## Development Standards
