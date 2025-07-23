@@ -22,7 +22,7 @@
   - **Git:** Commit with message "feat: implement market data service with Alpha Vantage integration"
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [ ] 3. Build strategy calculator engine
+- [x] 3. Build strategy calculator engine
   - Implement StrategyCalculator class with core financial calculation methods
   - Code calculate_net_premium method for credit/debit determination
   - Code calculate_max_profit and calculate_max_loss methods for different spread types
@@ -95,105 +95,61 @@
   - **Git:** Commit with message "feat: add comprehensive error handling and validation to CLI"
   - _Requirements: 1.1, 1.2, 2.1, 3.1, 4.3_
 
-- [ ] 8. Create payoff diagram generation functionality
-  - Implement generate_payoff_diagram method in StrategyCalculator
-  - Code payoff calculation across stock price range at expiration
-  - Add matplotlib-based diagram generation with proper labeling
-  - Create PayoffData class to structure diagram data
-  - Write tests for payoff diagram generation with sample strategies
+- [ ] 8. Create basic payoff diagram generation
+  - Add generate_payoff_diagram method to StrategyCalculator
+  - Calculate payoff values across stock price range at expiration
+  - Generate simple matplotlib diagram with basic labeling
+  - Write tests for payoff diagram generation
   - **Acceptance:** Run `python -m pytest tests/test_payoff_diagram.py -v` with all tests passing
-  - **CLI Test:** Run `python -c "from strategy_calculator import StrategyCalculator; calc = StrategyCalculator(); print('Payoff diagram generated')"` creates valid matplotlib figure
-  - **Documentation:** Add examples to CALCULATIONS.md showing payoff diagrams for common strategies
-  - **Git:** Commit with message "feat: add payoff diagram generation with matplotlib"
+  - **Documentation:** Add basic payoff diagram example to CALCULATIONS.md
+  - **Git:** Commit with message "feat: add basic payoff diagram generation"
   - _Requirements: 2.3_
 
-- [ ] 9. Create Streamlit web interface foundation (Milestone 2)
-  - Set up Streamlit application structure and basic layout
-  - Implement stock selection interface with quote display
-  - Create options chain data table with filtering capabilities
-  - Add session state management for strategy building
-  - Code basic navigation and page structure
-  - Write integration tests for Streamlit components
-  - **Acceptance:** Run `streamlit run app.py` launches web interface without errors
-  - **UI Test:** Navigate to localhost:8501 and verify stock selection dropdown works
-  - **Data Test:** Select a stock symbol and verify quote display updates correctly
-  - **Documentation:** Add WEB_INTERFACE.md with Streamlit setup and usage guide
-  - **Git:** Commit with message "feat: implement Streamlit web interface foundation"
-  - _Requirements: 1.1, 1.2, 2.1_
+- [ ] 9. Create Streamlit web interface with strategy builder (Milestone 2)
+  - Set up basic Streamlit app structure and layout
+  - Implement stock selection and quote display
+  - Create simple strategy builder with leg configuration
+  - Add basic metric calculations display
+  - Include simple payoff diagram visualization
+  - **Acceptance:** Run `streamlit run app.py` launches functional web interface
+  - **UI Test:** Build complete strategy and verify metrics display
+  - **Git:** Commit with message "feat: implement Streamlit web interface with strategy builder"
+  - _Requirements: 1.1, 1.2, 2.1, 2.2, 2.3_
 
-- [ ] 10. Build interactive strategy builder in web interface
-  - Implement strategy leg configuration interface with dropdowns and inputs
-  - Add real-time metric calculations display as user builds strategy
-  - Code strategy validation and error display
-  - Implement strategy reset and modification capabilities
-  - Add strategy summary display with all calculated metrics
-  - Write tests for strategy builder user interactions
-  - **Acceptance:** Run `python -m pytest tests/test_web_strategy_builder.py -v` with all tests passing
-  - **UI Test:** Build a complete strategy in web interface and verify all metrics display correctly
-  - **Validation Test:** Enter invalid strategy parameters and verify error messages appear
-  - **Documentation:** Update WEB_INTERFACE.md with strategy builder usage examples
-  - **Git:** Commit with message "feat: implement interactive strategy builder in web interface"
-  - _Requirements: 2.1, 2.2_
+- [ ] 10. Add AI analysis and trading journal to web interface
+  - Create simple AI analysis button and results display
+  - Add basic trading journal page with trade list
+  - Implement save strategy and close trade functionality
+  - **Acceptance:** Web interface includes AI analysis and basic journal
+  - **Git:** Commit with message "feat: add AI analysis and trading journal to web interface"
+  - _Requirements: 3.1, 4.1, 4.2_
 
-- [ ] 11. Integrate payoff diagram visualization in web interface
-  - Add matplotlib chart integration to Streamlit interface
-  - Implement interactive payoff diagram display
-  - Code chart updates when strategy parameters change
-  - Add chart customization options (price range, styling)
-  - Implement chart export functionality
-  - Write tests for chart generation and updates
-  - **Acceptance:** Run `python -m pytest tests/test_web_payoff_diagram.py -v` with all tests passing
-  - **UI Test:** Build strategy in web interface and verify payoff diagram displays correctly
-  - **Interactive Test:** Modify strategy parameters and verify chart updates in real-time
-  - **Export Test:** Verify chart export functionality saves diagram as image file
-  - **Documentation:** Update WEB_INTERFACE.md with payoff diagram usage and customization options
-  - **Git:** Commit with message "feat: integrate interactive payoff diagram visualization in web interface"
-  - _Requirements: 2.3_
+## MVP精简化总结
 
-- [ ] 12. Add AI analysis panel to web interface
-  - Create AI analysis section with loading states
-  - Implement analyze button with progress indicators
-  - Code formatted display of AI analysis results (strategy interpretation, market outlook, risks)
-  - Add error handling and retry functionality for AI failures
-  - Implement analysis history or caching for repeated requests
-  - Write tests for AI analysis integration
-  - **Acceptance:** Run `python -m pytest tests/test_web_ai_analysis.py -v` with all tests passing
-  - **UI Test:** Click AI analysis button in web interface and verify formatted results display correctly
-  - **Loading Test:** Verify loading states and progress indicators work during AI API calls
-  - **Error Test:** Test AI API failure scenarios and verify retry functionality works
-  - **Documentation:** Update WEB_INTERFACE.md with AI analysis panel usage and troubleshooting
-  - **Git:** Commit with message "feat: add AI analysis panel to web interface with error handling"
-  - _Requirements: 3.1, 3.2_
+**已完成核心任务 (Tasks 1-6):** ✅
+- 项目基础和数据结构
+- Alpha Vantage市场数据服务  
+- 策略计算引擎 (100行限制)
+- OpenRouter AI分析器
+- SQLite交易日志
+- CLI界面 (里程碑1达成)
 
-- [ ] 13. Build trading journal interface in web application
-  - Create trading journal page with tabular display of all trades
-  - Implement save strategy functionality from strategy builder
-  - Code trade detail view with all metrics and parameters
-  - Add close trade interface with manual price input
-  - Implement trade filtering and sorting capabilities
-  - Code P&L calculation display and trade status updates
-  - Write tests for journal interface operations
-  - **Acceptance:** Run `python -m pytest tests/test_web_trading_journal.py -v` with all tests passing
-  - **UI Test:** Navigate to trading journal page and verify all trades display correctly in table format
-  - **Save Test:** Save a strategy from strategy builder and verify it appears in journal
-  - **Close Test:** Close a trade with manual price input and verify P&L calculation is correct
-  - **Filter Test:** Test filtering and sorting functionality on journal table
-  - **Documentation:** Update WEB_INTERFACE.md with trading journal usage and features
-  - **Git:** Commit with message "feat: implement trading journal interface in web application"
-  - _Requirements: 4.1, 4.2, 4.3_
+**精简后剩余任务 (Tasks 7-10):**
+- Task 7: 错误处理增强
+- Task 8: 基础Payoff图表生成 (移除过度定制)
+- Task 9: Streamlit界面+策略构建器 (合并原Task 9+10)
+- Task 10: AI分析+交易日志界面 (合并原Task 11+12+13)
 
-- [ ] 14. Add final polish and deployment preparation
-  - Implement comprehensive logging throughout the application
-  - Add configuration validation and setup verification
-  - Code application health checks and diagnostic information
-  - Create user documentation and setup instructions
-  - Add error monitoring and crash reporting
-  - Implement graceful shutdown and cleanup procedures
-  - Write end-to-end tests for complete user workflows
-  - **Acceptance:** Run `python -m pytest tests/test_end_to_end.py -v` with all end-to-end tests passing
-  - **Health Check:** Run `python -c "from app import health_check; print(health_check())"` returns system status
-  - **Config Test:** Run `python -c "from config import validate_config; validate_config()"` without errors
-  - **Log Test:** Verify log files are created and contain proper structured logging
-  - **Documentation:** Create comprehensive USER_GUIDE.md and DEPLOYMENT.md
-  - **Git:** Final commit with message "feat: add final polish and deployment preparation for MVP release"
-  - _Requirements: 5.3, 5.4, 5.5_
+**已删除的过度设计功能:**
+- 图表导出和复杂定制选项
+- AI分析缓存和历史记录
+- 复杂的筛选排序功能
+- 企业级监控和健康检查
+- 过度的部署准备和文档
+
+**精简原则:**
+- 保持100行文件限制
+- 专注MVP核心价值
+- 避免过度工程化
+- 快速交付可用功能
+
