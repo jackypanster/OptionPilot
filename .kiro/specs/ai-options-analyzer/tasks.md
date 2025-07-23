@@ -5,7 +5,7 @@
   - Set up uv virtual environment and basic dependencies (httpx, pandas, python-dotenv)
   - Define core data models (StockQuote, OptionContract, OptionLeg, Strategy, StrategyMetrics, TradeRecord)
   - Create configuration management for API keys and settings
-  - **Acceptance:** Run `python -c "from models import StockQuote, OptionContract; print('Models imported successfully')"` without errors
+  - **Acceptance:** Run `python -c "from src.models import StockQuote, OptionContract; print('Models imported successfully')"` without errors
   - **Documentation:** Create README.md with setup instructions and project structure
   - **Git:** Initial commit with project structure and models
   - _Requirements: 5.1, 5.2_
@@ -17,12 +17,12 @@
   - Add comprehensive error handling for API failures, timeouts, and invalid responses
   - Write unit tests for market data service with mocked API responses
   - **Acceptance:** Run `python -m pytest tests/test_market_data.py -v` with all tests passing
-  - **CLI Test:** Run `python -c "from market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"` returns valid StockQuote object
+  - **CLI Test:** Run `python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"` returns valid StockQuote object
   - **Documentation:** Update README.md with API setup instructions and add docstrings to all methods
   - **Git:** Commit with message "feat: implement market data service with Alpha Vantage integration"
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [x] 3. Build strategy calculator engine
+- [ ] 3. Build strategy calculator engine
   - Implement StrategyCalculator class with core financial calculation methods
   - Code calculate_net_premium method for credit/debit determination
   - Code calculate_max_profit and calculate_max_loss methods for different spread types
