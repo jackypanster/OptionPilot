@@ -64,7 +64,7 @@
   - **Git:** Commit with message "feat: implement trading journal with SQLite persistence"
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 6. Create CLI interface for core functionality validation (Milestone 1)
+- [x] 6. Create CLI interface for core functionality validation (Milestone 1)
   - Implement CLI class with command parsing and user interaction
   - Code get-quote command for stock price display
   - Implement get-options command for options chain display
@@ -73,9 +73,9 @@
   - Implement save-trade command for journal persistence
   - Add list-trades and close-trade commands for journal management
   - Create main CLI entry point with command routing
-  - Write integration tests for complete CLI workflows
+  - Write integration tests for complete CLI workflows with real APIs only
   - **Acceptance:** Run `python cli.py --help` shows all available commands
-  - **CLI Test:** Run `python cli.py get-quote NVDA` returns stock price without errors
+  - **CLI Test:** Run `python cli.py get-quote NVDA` returns stock price or real API error
   - **Integration Test:** Complete end-to-end workflow: get quote → build strategy → analyze → save trade
   - **Documentation:** Add CLI_USAGE.md with all command examples and workflows
   - **Git:** Commit with message "feat: implement CLI interface for Milestone 1 completion"

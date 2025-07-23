@@ -34,8 +34,8 @@ uv run python -c "from src.config import validate_config; validate_config(); pri
 # Test market data service (Task 2 - implemented)
 uv run python -c "from src.market_data import MarketDataService; svc = MarketDataService(); print(svc.get_stock_quote('NVDA'))"
 
-# CLI interface (Milestone 1 - in development)
-uv run python cli.py
+# CLI interface (Milestone 1 - implemented)
+uv run python cli.py --help
 
 # Web interface (Milestone 2 - planned)
 uv run streamlit run app.py
@@ -58,14 +58,16 @@ OptionPilot/
 │   ├── test_market_data.py # Market data service tests ✅
 │   ├── test_strategy_calculator.py # Strategy calculator tests ✅
 │   ├── test_ai_analyzer.py # AI analyzer tests ✅
-│   └── test_trading_journal.py # Trading journal tests ✅
+│   ├── test_trading_journal.py # Trading journal tests ✅
+│   └── test_cli.py         # CLI integration tests ✅
 ├── requirements.txt        # Python dependencies ✅
 ├── .env.example           # API configuration template ✅
-├── cli.py                 # CLI interface (Milestone 1 - planned)
+├── cli.py                 # CLI interface (Milestone 1 - implemented) ✅
 ├── app.py                 # Streamlit web app (Milestone 2 - planned)
 ├── CALCULATIONS.md        # Financial formulas documentation ✅
 ├── AI_INTEGRATION.md      # OpenRouter API setup and usage ✅
 ├── TRADING_JOURNAL.md     # SQLite database schema and usage ✅
+├── CLI_USAGE.md           # Command-line interface guide ✅
 └── CLAUDE.md              # Claude Code guidance ✅
 ```
 
@@ -105,8 +107,16 @@ OptionPilot/
 - JSON serialization for complex strategy and metrics data
 - TRADING_JOURNAL.md documentation with database schema
 
+**✅ Completed (Task 6) - MILESTONE 1 ACHIEVED:**
+- CLI interface for core functionality validation (125 lines)
+- 7 commands integrating all components: get-quote, get-options, build-strategy, analyze-strategy, save-trade, list-trades, close-trade
+- Real API integration with Alpha Vantage and OpenRouter (no mocking)
+- Interactive strategy builder with step-by-step prompts
+- Complete end-to-end workflow: quote → build → analyze → save → manage
+- CLI_USAGE.md comprehensive documentation with examples
+
 **🚧 In Progress:**
-- CLI interface for core functionality validation (Task 6)
+- Enhanced error handling and validation (Task 7)
 - Additional components per implementation plan
 
 ## API Setup Instructions
