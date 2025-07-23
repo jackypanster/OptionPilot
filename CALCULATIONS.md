@@ -144,12 +144,54 @@ The calculator validates:
 - Actions must be 'buy' or 'sell'
 - Quantities must be positive integers
 
+## Payoff Diagram Generation
+
+The StrategyCalculator includes basic payoff diagram generation to visualize strategy profit/loss at expiration.
+
+### Usage
+
+```python
+from src.strategy_calculator import StrategyCalculator
+
+calculator = StrategyCalculator()
+figure = calculator.generate_payoff_diagram(strategy, current_stock_price)
+```
+
+### Features
+
+- **Price Range**: ±50% of current stock price (51 data points)
+- **Payoff Calculation**: Intrinsic value minus premium for each leg
+- **Basic Visualization**: Blue line for strategy P&L, red breakeven line, green current price line
+- **Simple Formatting**: Grid, labels, legend, and title
+
+### Example Output
+
+For a bull call spread (buy 145 call, sell 155 call):
+- X-axis: Stock prices from $75 to $225 (if current price is $150)
+- Y-axis: Profit/loss in dollars
+- Shows maximum profit at prices above $155
+- Shows maximum loss at prices below $145
+- Shows breakeven point around $150.54
+
+### Calculation Logic
+
+**Single Leg Options:**
+- Long Call: `max(0, stock_price - strike) * 100 - premium_paid`
+- Long Put: `max(0, strike - stock_price) * 100 - premium_paid`
+- Short Call: `premium_received - max(0, stock_price - strike) * 100`
+- Short Put: `premium_received - max(0, strike - stock_price) * 100`
+
+**Two-Leg Spreads:**
+- Sum the payoffs of both legs at each price point
+- Each leg calculated independently using single leg formulas
+
 ## Testing
 
 All calculations are tested with known inputs and expected outputs:
 - Single leg positions (long/short calls and puts)
 - Two-leg spreads (bull/bear, call/put combinations)
+- Payoff diagram generation and accuracy
 - Edge cases and precision handling
 - Invalid input validation
 
-See `tests/test_strategy_calculator.py` for comprehensive test cases.
+See `tests/test_strategy_calculator.py` and `tests/test_payoff_diagram.py` for comprehensive test cases.

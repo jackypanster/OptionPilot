@@ -2,7 +2,9 @@
 
 from decimal import Decimal, ROUND_HALF_UP
 from typing import List
+import matplotlib.figure
 from .models import Strategy, StrategyMetrics, OptionLeg
+from .payoff_diagram import PayoffDiagramGenerator
 
 
 class CalculationError(Exception):
@@ -50,7 +52,6 @@ class StrategyCalculator:
             if leg.action == 'buy' and leg.contract.option_type == 'call':
                 return Decimal('99999')  # Unlimited upside
             return net_premium if leg.action == 'sell' else abs(net_premium)
-        
         # Two-leg spread
         strikes = sorted([Decimal(str(leg.contract.strike)) for leg in legs])
         spread_value = (strikes[1] - strikes[0]) * Decimal('100')
@@ -61,7 +62,6 @@ class StrategyCalculator:
         if len(legs) == 1:
             leg = legs[0]
             return abs(net_premium) if leg.action == 'buy' else Decimal('99999')
-        
         # Two-leg spread
         strikes = sorted([Decimal(str(leg.contract.strike)) for leg in legs])
         spread_value = (strikes[1] - strikes[0]) * Decimal('100')
@@ -72,23 +72,18 @@ class StrategyCalculator:
         if len(legs) == 1:
             leg = legs[0]
             strike = Decimal(str(leg.contract.strike))
-            # For single leg, use the actual premium paid/received (not per-share)
             premium_amount = abs(net_premium)
-            
             if leg.contract.option_type == 'call':
-                breakeven = strike + premium_amount  # For both buy and sell calls
-            else:  # put
-                breakeven = strike - premium_amount  # For both buy and sell puts
+                breakeven = strike + premium_amount
+            else:
+                breakeven = strike - premium_amount
             return [breakeven.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)]
-        
         # Two-leg spread
         strikes = [Decimal(str(leg.contract.strike)) for leg in legs]
         lower_strike, upper_strike = min(strikes), max(strikes)
         option_types = [leg.contract.option_type for leg in legs]
-        premium_per_share = net_premium / Decimal('100')  # Convert to per-share for spreads
-        
+        premium_per_share = net_premium / Decimal('100')
         breakeven = (lower_strike + premium_per_share) if 'call' in option_types else (upper_strike - premium_per_share)
-        
         return [breakeven.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)]
     
     def _calculate_margin_requirement(self, max_loss: Decimal, net_premium: Decimal) -> Decimal:
@@ -100,3 +95,7 @@ class StrategyCalculator:
         if margin_requirement <= 0 or max_profit >= Decimal('99999') or margin_requirement >= Decimal('99999'):
             return Decimal('0')
         return ((max_profit / margin_requirement) * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    
+    def generate_payoff_diagram(self, strategy: Strategy, current_price: float) -> matplotlib.figure.Figure:
+        """Generate payoff diagram for options strategy at expiration."""
+        return PayoffDiagramGenerator().generate_payoff_diagram(strategy, current_price)
