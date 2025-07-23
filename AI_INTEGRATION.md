@@ -244,11 +244,67 @@ analyzer = AIAnalyzer()
 # Detailed request/response logging will be shown
 ```
 
+## Web Interface Integration
+
+### Interactive AI Analysis
+The AI analyzer is now fully integrated into the Streamlit web interface, providing a seamless user experience:
+
+#### Using AI Analysis in Web Interface
+
+1. **Navigate to Strategy Builder Tab**
+   - Build your options strategy using the interactive form
+   - Ensure you have fetched current stock prices
+
+2. **Access AI Analysis**
+   - Look for the "🤖 AI Strategy Analysis" section in the right column
+   - Click "Analyze Strategy with AI" button
+   - Wait for the analysis (loading spinner will show progress)
+
+3. **Review Results**
+   - **Strategy Interpretation**: Clear explanation of your strategy type
+   - **Market Outlook**: What market conditions favor this strategy
+   - **Risk Warning**: Primary risks and potential loss scenarios
+
+#### Web Interface Features
+
+- **Session Persistence**: Analysis results remain visible throughout your session
+- **Error Handling**: Graceful handling of API failures with user-friendly messages
+- **Real-time Updates**: Analysis refreshes when you build new strategies
+- **Interactive Feedback**: Loading states and success confirmations
+
+#### Technical Implementation
+
+```python
+# Web interface calls the same AIAnalyzer class
+from src.ai_analyzer import AIAnalyzer, AIAnalysisError
+
+analyzer = AIAnalyzer()
+analysis = analyzer.analyze_strategy(strategy, metrics, current_stock_price)
+
+# Results displayed in structured format:
+# - st.info() for interpretation and market outlook
+# - st.warning() for risk warnings
+```
+
+### Session State Management
+
+The web interface maintains AI analysis results in Streamlit's session state:
+
+```python
+# Analysis results stored and retrieved
+st.session_state.ai_analysis = analysis
+
+# Persistent display across interactions
+if st.session_state.ai_analysis:
+    display_analysis_results(st.session_state.ai_analysis)
+```
+
 ## Future Enhancements
 
 Potential improvements for the AI integration:
 - Multi-model comparison (Claude vs GPT-4)
-- Caching for repeated analyses
+- Analysis history and comparison features
 - Batch processing for multiple strategies
 - Custom prompt templates for different user levels
 - Integration with market sentiment data
+- Export analysis results to PDF/Excel

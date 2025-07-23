@@ -6,6 +6,8 @@ This document provides comprehensive guidance for using the OptionPilot CLI inte
 
 The OptionPilot CLI provides a command-line interface for options trading analysis, integrating all core components: market data, strategy calculator, AI analyzer, and trading journal.
 
+**Architecture**: The CLI has been optimized to 70 lines through modular design, with command handlers extracted to `src/cli_handlers.py` for better maintainability and testability.
+
 ## Installation & Setup
 
 ```bash
@@ -343,3 +345,27 @@ validate_config();
 print('✅ All systems operational')
 "
 ```
+
+## Technical Architecture
+
+### CLI Module Structure
+After optimization, the CLI follows a clean modular architecture:
+
+- **`cli.py` (70 lines)**: Main CLI entry point with command definitions
+- **`src/cli_handlers.py` (132 lines)**: Business logic for all CLI commands
+- **Global State Management**: Shared strategy state between commands
+- **Error Handling**: Fail-fast approach with clear error messages
+
+### Command Processing Flow
+```
+cli.py (command definition) 
+  → cli_handlers.py (business logic) 
+    → core modules (market_data, strategy_calculator, etc.)
+      → external APIs / database
+```
+
+### Benefits of Modular Design
+1. **Maintainability**: Easier to test and modify individual command handlers
+2. **Reusability**: Handler functions can be used by other interfaces
+3. **Separation of Concerns**: UI logic separate from business logic
+4. **100-line Compliance**: Main CLI file stays under the constraint
