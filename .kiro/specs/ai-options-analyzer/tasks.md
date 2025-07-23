@@ -95,7 +95,7 @@
   - **Git:** Commit with message "feat: add comprehensive error handling and validation to CLI"
   - _Requirements: 1.1, 1.2, 2.1, 3.1, 4.3_
 
-- [ ] 8. Create basic payoff diagram generation
+- [x] 8. Create basic payoff diagram generation
   - Add generate_payoff_diagram method to StrategyCalculator
   - Calculate payoff values across stock price range at expiration
   - Generate simple matplotlib diagram with basic labeling
