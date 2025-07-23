@@ -12,78 +12,114 @@ from src.trading_journal import TradingJournal, TradingJournalError
 from src.models import Strategy, StrategyMetrics, OptionLeg, OptionContract
 
 
+def create_bull_call_spread(symbol: str = 'NVDA', 
+                           buy_strike: float = 145.0, 
+                           sell_strike: float = 155.0) -> Strategy:
+    """Factory function for creating bull call spread strategies."""
+    buy_leg = OptionLeg(
+        action='buy',
+        contract=OptionContract(
+            symbol=symbol,
+            strike=buy_strike,
+            expiration=date(2024, 3, 15),
+            option_type='call',
+            bid=11.80,
+            ask=12.20
+        )
+    )
+    sell_leg = OptionLeg(
+        action='sell',
+        contract=OptionContract(
+            symbol=symbol,
+            strike=sell_strike,
+            expiration=date(2024, 3, 15),
+            option_type='call',
+            bid=6.80,
+            ask=7.20
+        )
+    )
+    return Strategy(
+        legs=[buy_leg, sell_leg],
+        underlying_symbol=symbol,
+        created_at=datetime.now()
+    )
+
+
+def create_sample_metrics(net_premium: float = -5.40) -> StrategyMetrics:
+    """Factory function for creating sample strategy metrics."""
+    return StrategyMetrics(
+        net_premium=net_premium,
+        max_profit=994.60,
+        max_loss=abs(net_premium),
+        breakeven_points=[150.54],
+        margin_requirement=abs(net_premium),
+        return_on_margin=18418.52
+    )
+
+
+def create_single_leg_strategy(symbol: str = 'TSLA', 
+                              strike: float = 200.0,
+                              action: str = 'buy',
+                              option_type: str = 'call') -> Strategy:
+    """Factory function for creating single leg strategies."""
+    return Strategy(
+        legs=[OptionLeg(
+            action=action,
+            contract=OptionContract(
+                symbol=symbol,
+                strike=strike,
+                expiration=date(2024, 3, 15),
+                option_type=option_type,
+                bid=10.0,
+                ask=10.50
+            )
+        )],
+        underlying_symbol=symbol,
+        created_at=datetime.now()
+    )
+
+
+@pytest.fixture
+def temp_journal():
+    """Create TradingJournal with temporary database."""
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.db') as temp_db:
+        temp_db_path = temp_db.name
+    
+    # Override database path
+    original_path = os.environ.get('DATABASE_PATH')
+    os.environ['DATABASE_PATH'] = temp_db_path
+    
+    try:
+        journal = TradingJournal()
+        yield journal
+    finally:
+        # Cleanup environment
+        if original_path:
+            os.environ['DATABASE_PATH'] = original_path
+        elif 'DATABASE_PATH' in os.environ:
+            del os.environ['DATABASE_PATH']
+        
+        # Remove temporary file
+        try:
+            os.unlink(temp_db_path)
+        except OSError:
+            pass
+
+
 class TestTradingJournal:
     """Test suite for TradingJournal with temporary database."""
     
-    @pytest.fixture
-    def temp_journal(self):
-        """Create TradingJournal with temporary database."""
-        # Create temporary database file
-        temp_db = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
-        temp_db.close()
-        
-        # Override database path
-        original_path = os.environ.get('DATABASE_PATH')
-        os.environ['DATABASE_PATH'] = temp_db.name
-        
-        try:
-            journal = TradingJournal()
-            yield journal
-        finally:
-            # Cleanup
-            if original_path:
-                os.environ['DATABASE_PATH'] = original_path
-            elif 'DATABASE_PATH' in os.environ:
-                del os.environ['DATABASE_PATH']
-            
-            # Remove temporary file
-            try:
-                os.unlink(temp_db.name)
-            except OSError:
-                pass
+
     
     @pytest.fixture
     def sample_bull_call_spread(self):
         """Create sample bull call spread strategy."""
-        buy_leg = OptionLeg(
-            action='buy',
-            contract=OptionContract(
-                symbol='NVDA',
-                strike=145.0,
-                expiration=date(2024, 3, 15),
-                option_type='call',
-                bid=11.80,
-                ask=12.20
-            )
-        )
-        sell_leg = OptionLeg(
-            action='sell',
-            contract=OptionContract(
-                symbol='NVDA',
-                strike=155.0,
-                expiration=date(2024, 3, 15),
-                option_type='call',
-                bid=6.80,
-                ask=7.20
-            )
-        )
-        return Strategy(
-            legs=[buy_leg, sell_leg],
-            underlying_symbol='NVDA',
-            created_at=datetime.now()
-        )
+        return create_bull_call_spread()
     
     @pytest.fixture
     def sample_metrics(self):
         """Create sample strategy metrics."""
-        return StrategyMetrics(
-            net_premium=-5.40,
-            max_profit=994.60,
-            max_loss=5.40,
-            breakeven_points=[150.54],
-            margin_requirement=5.40,
-            return_on_margin=18418.52
-        )
+        return create_sample_metrics()
     
     def test_journal_initialization(self, temp_journal):
         """Test that journal initializes and creates database."""
@@ -176,21 +212,7 @@ class TestTradingJournal:
         trade1 = temp_journal.save_trade(sample_bull_call_spread, sample_metrics)
         
         # Create second strategy with different symbol
-        strategy2 = Strategy(
-            legs=[OptionLeg(
-                action='buy',
-                contract=OptionContract(
-                    symbol='TSLA',
-                    strike=200.0,
-                    expiration=date(2024, 3, 15),
-                    option_type='call',
-                    bid=10.0,
-                    ask=10.50
-                )
-            )],
-            underlying_symbol='TSLA',
-            created_at=datetime.now()
-        )
+        strategy2 = create_single_leg_strategy('TSLA')
         
         trade2 = temp_journal.save_trade(strategy2, sample_metrics)
         
@@ -317,82 +339,28 @@ class TestTradingJournal:
 class TestTradingJournalPnLCalculations:
     """Specific tests for P&L calculation logic."""
     
-    @pytest.fixture
-    def temp_journal(self):
-        """Create TradingJournal with temporary database."""
-        temp_db = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
-        temp_db.close()
-        
-        original_path = os.environ.get('DATABASE_PATH')
-        os.environ['DATABASE_PATH'] = temp_db.name
-        
-        try:
-            journal = TradingJournal()
-            yield journal
-        finally:
-            if original_path:
-                os.environ['DATABASE_PATH'] = original_path
-            elif 'DATABASE_PATH' in os.environ:
-                del os.environ['DATABASE_PATH']
-            
-            try:
-                os.unlink(temp_db.name)
-            except OSError:
-                pass
-    
-    def test_bull_call_spread_pnl_scenarios(self, temp_journal):
+    @pytest.mark.parametrize("closing_price,expected_pnl,scenario", [
+        (140.0, 5.40, "below_both_strikes"),
+        (150.0, 5.40, "between_strikes_below_breakeven"),
+        (151.0, 994.60, "above_breakeven"),
+        (160.0, 994.60, "above_both_strikes"),
+    ])
+    def test_bull_call_spread_pnl_scenarios(self, temp_journal, closing_price, expected_pnl, scenario):
         """Test P&L calculation for bull call spread at different closing prices."""
         # Bull call spread: Buy 145 Call, Sell 155 Call
-        strategy = Strategy(
-            legs=[
-                OptionLeg(action='buy', contract=OptionContract(
-                    symbol='NVDA', strike=145.0, expiration=date(2024, 3, 15),
-                    option_type='call', bid=11.80, ask=12.20
-                )),
-                OptionLeg(action='sell', contract=OptionContract(
-                    symbol='NVDA', strike=155.0, expiration=date(2024, 3, 15),
-                    option_type='call', bid=6.80, ask=7.20
-                ))
-            ],
-            underlying_symbol='NVDA',
-            created_at=datetime.now()
-        )
+        strategy = create_bull_call_spread()
+        metrics = create_sample_metrics()
         
-        metrics = StrategyMetrics(
-            net_premium=-5.40,  # Debit
-            max_profit=994.60,
-            max_loss=5.40,
-            breakeven_points=[150.54],
-            margin_requirement=5.40,
-            return_on_margin=18418.52
-        )
+        # Save and close trade
+        saved_trade = temp_journal.save_trade(strategy, metrics)
+        closed_trade = temp_journal.close_trade(saved_trade.id, closing_price)
         
-        # Test different closing scenarios
-        test_cases = [
-            (140.0, metrics.max_loss),    # Below both strikes
-            (150.0, metrics.max_loss),    # Between strikes but below breakeven
-            (151.0, metrics.max_profit),  # Above breakeven
-            (160.0, metrics.max_profit),  # Above both strikes
-        ]
-        
-        for closing_price, expected_pnl in test_cases:
-            # Save new trade for each test
-            saved_trade = temp_journal.save_trade(strategy, metrics)
-            closed_trade = temp_journal.close_trade(saved_trade.id, closing_price)
-            
-            assert closed_trade.final_pnl == expected_pnl, \
-                f"Expected P&L {expected_pnl} for closing price {closing_price}, got {closed_trade.final_pnl}"
+        assert closed_trade.final_pnl == expected_pnl, \
+            f"Scenario {scenario}: Expected P&L {expected_pnl} for closing price {closing_price}, got {closed_trade.final_pnl}"
     
     def test_single_long_call_pnl(self, temp_journal):
         """Test P&L calculation for single long call."""
-        strategy = Strategy(
-            legs=[OptionLeg(action='buy', contract=OptionContract(
-                symbol='NVDA', strike=150.0, expiration=date(2024, 3, 15),
-                option_type='call', bid=8.50, ask=8.70
-            ))],
-            underlying_symbol='NVDA',
-            created_at=datetime.now()
-        )
+        strategy = create_single_leg_strategy('NVDA', 150.0, 'buy', 'call')
         
         metrics = StrategyMetrics(
             net_premium=-8.70,  # Premium paid
@@ -409,3 +377,20 @@ class TestTradingJournalPnLCalculations:
         # Test closing below breakeven (loss)
         closed_trade = temp_journal.close_trade(saved_trade.id, 155.0)
         assert closed_trade.final_pnl == metrics.max_loss
+    
+    def test_database_error_handling(self):
+        """Test handling of database connection errors."""
+        # Test with invalid database path
+        original_path = os.environ.get('DATABASE_PATH')
+        os.environ['DATABASE_PATH'] = '/invalid/path/database.db'
+        
+        try:
+            # This should raise an error when trying to create tables
+            with pytest.raises((OSError, PermissionError, Exception)):
+                TradingJournal()
+        finally:
+            # Restore original path
+            if original_path:
+                os.environ['DATABASE_PATH'] = original_path
+            elif 'DATABASE_PATH' in os.environ:
+                del os.environ['DATABASE_PATH']

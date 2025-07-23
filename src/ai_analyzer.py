@@ -60,32 +60,18 @@ Format: JSON with keys "interpretation", "market_outlook", "risk_warning"."""
     
     def _make_api_request(self, prompt: str) -> Dict[str, Any]:
         """Make API request to OpenRouter with error handling."""
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        
-        payload = {
-            "model": "anthropic/claude-3.5-sonnet",
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.3,
-            "max_tokens": 300
-        }
+        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
+        payload = {"model": "anthropic/claude-3.5-sonnet", "messages": [{"role": "user", "content": prompt}], "temperature": 0.3, "max_tokens": 300}
         
         try:
             response = self.client.post(self.base_url, headers=headers, json=payload)
             response.raise_for_status()
             data = response.json()
-            
             if 'error' in data:
                 raise AIAnalysisError(f"API error: {data['error']}")
-            
             return data
         except httpx.HTTPStatusError as e:
-            if e.response.status_code == 401:
-                raise AIAnalysisError("Invalid API key or authentication failed")
-            else:
-                raise AIAnalysisError(f"HTTP error {e.response.status_code}: {e}")
+            raise AIAnalysisError("Invalid API key" if e.response.status_code == 401 else f"HTTP error {e.response.status_code}")
         except httpx.RequestError as e:
             raise AIAnalysisError(f"Request failed: {e}")
     
@@ -94,17 +80,11 @@ Format: JSON with keys "interpretation", "market_outlook", "risk_warning"."""
         try:
             content = response['choices'][0]['message']['content']
             analysis = json.loads(content.strip())
-            
             required_keys = ['interpretation', 'market_outlook', 'risk_warning']
             for key in required_keys:
                 if key not in analysis:
                     raise AIAnalysisError(f"Missing required key: {key}")
-            
-            return {
-                'interpretation': analysis['interpretation'],
-                'market_outlook': analysis['market_outlook'], 
-                'risk_warning': analysis['risk_warning']
-            }
+            return {key: analysis[key] for key in required_keys}
         except (KeyError, json.JSONDecodeError, IndexError) as e:
             raise AIAnalysisError(f"Invalid response format: {e}")
     
