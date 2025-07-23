@@ -45,6 +45,12 @@ def render_stock_quote_section(selected_symbol):
 
 def render_leg_configuration(leg_number, default_strike=150.0, default_bid=8.50, default_ask=8.70):
     """Render option leg configuration UI."""
+    # Use different defaults for leg 2
+    if leg_number == 2:
+        default_strike = 155.0
+        default_bid = 6.80
+        default_ask = 7.20
+    
     st.markdown(f"**Leg {leg_number}**")
     
     col1, col2 = st.columns(2)
@@ -88,7 +94,7 @@ def render_strategy_form(selected_symbol):
         
         if add_leg2:
             st.markdown("**Leg 2 (Optional)**")
-            leg2_action, leg2_type, leg2_strike, leg2_bid, leg2_ask = render_leg_configuration(2, 155.0, 6.80, 7.20)
+            leg2_action, leg2_type, leg2_strike, leg2_bid, leg2_ask = render_leg_configuration(2)
             leg2_data = (leg2_action, leg2_type, leg2_strike, leg2_bid, leg2_ask)
         
         # Build strategy button

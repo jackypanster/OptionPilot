@@ -193,20 +193,21 @@ def test_bull_call_spread_analysis(service, bull_call_spread, bull_call_metrics)
 
 ```bash
 # Required
-OPENROUTER_API_KEY=your_api_key_here
+ALPHA_VANTAGE_API_KEY=your_alphavantage_key_here
+OPENROUTER_API_KEY=your_openrouter_key_here
 
-# Optional
-API_TIMEOUT=30                    # Request timeout in seconds
-AI_MODEL=anthropic/claude-3.5-sonnet  # Model selection
-AI_TEMPERATURE=0.3               # Response creativity (0.0-1.0)
-AI_MAX_TOKENS=300               # Maximum response length
+# Optional Configuration  
+API_TIMEOUT=30                           # Request timeout in seconds (default: 30)
+SUPPORTED_SYMBOLS=NVDA,TSLA,HOOD,CRCL  # Supported stock symbols (default: NVDA,TSLA,HOOD,CRCL)
+DATABASE_PATH=trading_journal.db         # SQLite database file path (default: trading_journal.db)
 ```
 
 ### Model Parameters
 
-- **Temperature:** 0.3 (balanced creativity and consistency)
-- **Max Tokens:** 300 (sufficient for concise analysis)
-- **Model:** Claude 3.5 Sonnet (optimal for financial analysis)
+Following MVP principles, AI model parameters are hardcoded in `ai_analyzer.py`:
+- **Model:** `"anthropic/claude-3.5-sonnet"` (fixed, optimal for financial analysis)
+- **Temperature:** `0.3` (balanced creativity and consistency)
+- **Max Tokens:** `300` (sufficient for concise analysis)
 
 ## Troubleshooting
 

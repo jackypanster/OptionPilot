@@ -55,7 +55,7 @@ OptionPilot/
 │   ├── ai_analyzer.py      # OpenRouter AI integration ✅ (93 lines)
 │   ├── trading_journal.py # SQLite persistence layer ✅ (100 lines)
 │   ├── payoff_diagram.py  # Matplotlib payoff diagram generation ✅ (68 lines)
-│   ├── web_components.py  # Streamlit UI components ✅ (277 lines)
+│   ├── web_components.py  # Streamlit UI components ✅ (283 lines)
 │   ├── web_utils.py       # Web interface utilities ✅ (149 lines)
 │   └── cli_handlers.py    # CLI command handlers ✅ (132 lines)
 ├── tests/
@@ -160,20 +160,52 @@ OptionPilot/
 - **Responsive Design**: Wide layout with tabbed navigation for optimal user experience
 - **Session State Persistence**: Maintains strategy data, analysis results, and journal state
 
+## Configuration Management
+
+### 📋 Environment Variables
+Core configuration is managed through `.env` file for API keys and basic settings:
+
+```bash
+# Required API Keys
+ALPHA_VANTAGE_API_KEY=your_alphavantage_key_here
+OPENROUTER_API_KEY=your_openrouter_key_here
+
+# Optional Configuration
+API_TIMEOUT=30                           # Request timeout (default: 30s)
+SUPPORTED_SYMBOLS=NVDA,TSLA,HOOD,CRCL  # Stock symbols (default: 4 symbols)
+DATABASE_PATH=trading_journal.db         # Database file (default: trading_journal.db)
+```
+
+### 🎯 MVP Simplicity
+Following MVP principles, all constants are inlined directly in their usage files:
+- **Strategy Calculator**: `Decimal('99999')` for unlimited values, `Decimal('100')` for contract multiplier
+- **Payoff Diagrams**: Price range 0.5x-1.5x current price, 51 points, 8x5 chart size
+- **Web Interface**: Default strike 150.0, bid 8.50, ask 8.70 for leg 1; 155.0, 6.80, 7.20 for leg 2
+- **AI Integration**: Fixed `"anthropic/claude-3.5-sonnet"` model, 0.3 temperature, 300 max tokens
+
 ## Architecture Optimization
 
 ### 💡 100-Line Constraint Achievement
-The project successfully maintains the 100-line limit across all core modules through strategic refactoring:
+The project maintains the 100-line limit across all core modules following MVP principles:
 
 - **app.py**: 218 → 36 lines (83% reduction via component extraction)
 - **cli.py**: 131 → 70 lines (46% reduction via handler extraction) 
-- **ai_analyzer.py**: 113 → 93 lines (18% reduction via logic consolidation)
+- **config.py**: Simplified to 86 lines (core API key management only)
+- **ai_analyzer.py**: 93 lines (inline configuration, hardcoded model)
+- **strategy_calculator.py**: 100 lines (inline constants for calculations)
+- **payoff_diagram.py**: 68 lines (inline chart parameters)
 
 ### 🏗️ Modular Design Pattern
 - **UI Components** (`web_components.py`): Reusable Streamlit interface elements
 - **Utilities** (`web_utils.py`): Session management and helper functions
 - **Command Handlers** (`cli_handlers.py`): CLI business logic separation
 - **Diagram Generation** (`payoff_diagram.py`): Isolated matplotlib functionality
+
+### 🎯 MVP Design Philosophy
+- **Inline Constants**: All hardcoded values in their usage context
+- **No Over-Engineering**: Removed complex configuration abstraction layers
+- **Direct Dependencies**: Simple imports, no cross-file constant references
+- **Minimal Code**: Every line serves the core MVP functionality
 
 ## API Setup Instructions
 
