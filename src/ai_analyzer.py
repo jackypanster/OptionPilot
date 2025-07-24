@@ -61,7 +61,7 @@ Format: JSON with keys "interpretation", "market_outlook", "risk_warning"."""
     def _make_api_request(self, prompt: str) -> Dict[str, Any]:
         """Make API request to OpenRouter with error handling."""
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
-        payload = {"model": "anthropic/claude-3.5-sonnet", "messages": [{"role": "user", "content": prompt}], "temperature": 0.3, "max_tokens": 300}
+        payload = {"model": "google/gemini-2.5-flash-lite", "messages": [{"role": "user", "content": prompt}], "temperature": 0.3, "max_tokens": 300}
         
         try:
             response = self.client.post(self.base_url, headers=headers, json=payload)

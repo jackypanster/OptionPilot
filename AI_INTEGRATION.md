@@ -1,6 +1,6 @@
 # AI Integration with OpenRouter
 
-This document explains the AI-powered strategy analysis integration using OpenRouter API and Claude 4 Sonnet.
+This document explains the AI-powered strategy analysis integration using OpenRouter API and Google Gemini 2.5 Flash Lite.
 
 ## Overview
 
@@ -19,11 +19,12 @@ The AI analyzer provides qualitative analysis of options strategies, translating
 
 ### 2. Model Selection
 
-We use **Claude 3.5 Sonnet** (`anthropic/claude-3.5-sonnet`) for analysis because:
-- Excellent financial reasoning capabilities
-- Structured output generation
+We use **Google Gemini 2.5 Flash Lite** (`google/gemini-2.5-flash-lite`) for analysis because:
+- Cost-effective for high-volume usage
+- Fast response times
+- Good financial reasoning capabilities
 - Reliable JSON formatting
-- Good understanding of options trading concepts
+- Suitable understanding of options trading concepts
 
 ## API Integration
 
@@ -205,7 +206,7 @@ DATABASE_PATH=trading_journal.db         # SQLite database file path (default: t
 ### Model Parameters
 
 Following MVP principles, AI model parameters are hardcoded in `ai_analyzer.py`:
-- **Model:** `"anthropic/claude-3.5-sonnet"` (fixed, optimal for financial analysis)
+- **Model:** `"google/gemini-2.5-flash-lite"` (fixed, cost-effective for financial analysis)
 - **Temperature:** `0.3` (balanced creativity and consistency)
 - **Max Tokens:** `300` (sufficient for concise analysis)
 
@@ -303,7 +304,7 @@ if st.session_state.ai_analysis:
 ## Future Enhancements
 
 Potential improvements for the AI integration:
-- Multi-model comparison (Claude vs GPT-4)
+- Multi-model comparison (Gemini vs Claude vs GPT-4)
 - Analysis history and comparison features
 - Batch processing for multiple strategies
 - Custom prompt templates for different user levels
