@@ -73,6 +73,13 @@ class MarketDataService:
     
     def _parse_options_chain(self, data: Dict[str, Any], symbol: str, expiration: date) -> List[OptionContract]:
         """Parse options chain response."""
+        # Check if this is sample data from Alpha Vantage free tier
+        if 'message' in data and 'premium endpoint' in data.get('message', '').lower():
+            raise MarketDataError(
+                f"Options data requires Alpha Vantage premium subscription. "
+                f"Free tier only provides sample data. Visit https://www.alphavantage.co/premium/"
+            )
+        
         options_data = data.get('data', [])
         if not options_data:
             raise MarketDataError(f"No options data for {symbol}")

@@ -52,12 +52,22 @@ uv run python cli.py get-quote CRCL
 # Get options chain for specific expiration
 uv run python cli.py get-options NVDA 2024-03-15
 uv run python cli.py get-options TSLA 2024-04-19
+```
 
-# Example output:
-# 📈 NVDA 2024-03-15:
-#   CALL $145.0: $11.80-$12.20
-#   CALL $150.0: $8.90-$9.30
-#   PUT $140.0: $5.00-$5.40
+**⚠️ Important:** Options data requires Alpha Vantage premium subscription. Free tier will show an error message.
+
+**Example output (with premium subscription):**
+```
+📈 NVDA 2024-03-15:
+  CALL $145.0: $11.80-$12.20
+  CALL $150.0: $8.90-$9.30
+  PUT $140.0: $5.00-$5.40
+```
+
+**Free tier output:**
+```
+❌ Options data requires Alpha Vantage premium subscription. Free tier only provides sample data. Visit https://www.alphavantage.co/premium/
+```
 ```
 
 ### Strategy Building Commands

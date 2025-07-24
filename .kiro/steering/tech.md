@@ -87,6 +87,33 @@ def calculate_max_profit(strategy: Strategy) -> float:
         return 0.0  # Don't do this!
 ```
 
+### No Mock Data Policy
+**CRITICAL RULE: Absolutely no mock, fake, or hardcoded data in production code.**
+
+- **Real API Integration Only:** All market data must come from actual API calls to Alpha Vantage
+- **Fail Fast on Missing Data:** If API data is unavailable, raise clear errors instead of returning fake data
+- **No Sample Data Fallbacks:** Never use placeholder or sample data as fallbacks
+- **Clear Error Messages:** When APIs are unavailable or require premium subscriptions, provide clear error messages with upgrade paths
+- **Test Data Only in Tests:** Mock data is only acceptable in unit tests with clear mocking frameworks
+
+```python
+# Good - fail with clear message when API data unavailable
+def get_options_chain(symbol: str, date: date) -> List[OptionContract]:
+    if api_response_is_sample_data(response):
+        raise MarketDataError(
+            f"Options data requires premium subscription. "
+            f"Visit https://provider.com/premium/"
+        )
+    return parse_real_data(response)
+
+# Bad - never return fake data
+def get_options_chain(symbol: str, date: date) -> List[OptionContract]:
+    try:
+        return get_real_data()
+    except:
+        return [fake_option_contract()]  # Never do this!
+```
+
 ### Data Integrity & Validation
 - **Input Validation:** All external inputs must be strictly validated (stock symbols, price ranges, dates)
 - **Financial Data Validation:** Validate bid/ask spreads, option prices, and expiration dates for reasonableness

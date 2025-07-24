@@ -21,8 +21,11 @@ uv pip install -r requirements.txt
 # Configure API keys
 cp .env.example .env
 # Edit .env with your actual API keys:
-# - ALPHA_VANTAGE_API_KEY: Get from https://www.alphavantage.co/support/#api-key
+# - ALPHA_VANTAGE_API_KEY: Get from https://www.alphavantage.co/support/#api-key (free tier available)
 # - OPENROUTER_API_KEY: Get from https://openrouter.ai/keys
+
+# ⚠️ Note: Options data requires Alpha Vantage premium subscription
+# Free tier only provides stock quotes, not options chains
 ```
 
 ### Running the Application
